@@ -130,6 +130,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 196949590}
+  - component: {fileID: 196949591}
   m_Layer: 0
   m_Name: CameraTarget
   m_TagString: Untagged
@@ -152,6 +153,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 40, y: 44.9, z: 0}
+--- !u!114 &196949591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196949589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6a6e4eba67ec384887c8f333dd526db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObject: {fileID: 1992338079}
+  smoothness: 2
 --- !u!1 &584558748
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,6 +538,7 @@ GameObject:
   - component: {fileID: 1992338077}
   - component: {fileID: 1992338076}
   - component: {fileID: 1992338075}
+  - component: {fileID: 1992338080}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Untagged
@@ -620,3 +636,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1992338080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992338074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e17933b3eecd6244b095c14f0bed198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.8
