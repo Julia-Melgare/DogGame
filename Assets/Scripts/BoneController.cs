@@ -5,13 +5,11 @@ using UnityEngine;
 public class BoneController : MonoBehaviour
 {
     private Plane plane = new Plane(Vector3.up, Vector3.zero);
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);

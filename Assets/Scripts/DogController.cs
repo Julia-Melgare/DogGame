@@ -8,13 +8,11 @@ public class DogController : MonoBehaviour
     private GameObject bone;
     public float speed = 0.8f;
 
-    // Start is called before the first frame update
     void Start()
     {
         bone = GameObject.Find("Bone");
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector3 direction = bone.transform.position - transform.position;
