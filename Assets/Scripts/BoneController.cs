@@ -18,7 +18,7 @@ public class BoneController : MonoBehaviour
         if (plane.Raycast(ray, out enter))
         {
             Vector3 hitPoint = ray.GetPoint(enter);
-            transform.position = new Vector3(hitPoint.x, hitPoint.y+2f, hitPoint.z);
+            transform.position = new Vector3(hitPoint.x, hitPoint.y+5f, hitPoint.z);
         }        
     }
 }
