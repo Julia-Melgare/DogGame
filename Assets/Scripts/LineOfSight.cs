@@ -6,23 +6,69 @@ public class LineOfSight : MonoBehaviour
 {
     public float distance = 10;
     public float angle = 30;
-    public float height = 15;
+    public float height = 6;
     public Color meshColor = Color.yellow;
     public int scanFrequency = 30;
+    public LayerMask layers;
+    public List<GameObject> objects = new List<GameObject>();
 
+    private Collider[] colliders = new Collider[50];
     private Mesh mesh;
+    private int count;
+    private float scanInterval;
+    private float scanTimer;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        scanInterval = 1.0f / scanFrequency;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        scanTimer -= Time.deltaTime;
+
+        if (scanTimer < 0)
+        {
+            scanTimer += scanInterval;
+            Scan();
+        }
+    }
+
+    private void Scan()
+    {
+        count = Physics.OverlapSphereNonAlloc(transform.position, distance, colliders, layers, QueryTriggerInteraction.Collide);
+
+        objects.Clear();
+        for (int i = 0; i <count; i++)
+        {
+            GameObject obj = colliders[i].gameObject;
+            if (isInSight(obj))
+            {
+                objects.Add(obj);
+            }
+        }
+    }
+
+    public bool isInSight(GameObject obj)
+    {
+        Vector3 origin = transform.position;
+        Vector3 dest = obj.transform.position;
+        Vector3 dir = dest - origin;
+        if (dir.y < 0 || dir.y > height)
+        {
+            return false;
+        }
+
+        dir.y = 0;
+        float deltaAngle = Vector3.Angle(dir, transform.forward);
+        if (deltaAngle > angle)
+        {
+            return false;
+        }
+        return true;
     }
 
     Mesh CreateWedgeMesh()
@@ -107,6 +153,7 @@ public class LineOfSight : MonoBehaviour
     private void OnValidate()
     {
         mesh = CreateWedgeMesh();
+        scanInterval = 1.0f / scanFrequency;
     }
 
     private void OnDrawGizmos()
@@ -116,5 +163,7 @@ public class LineOfSight : MonoBehaviour
             Gizmos.color = meshColor;
             Gizmos.DrawMesh(mesh, transform.position, transform.rotation);
         }
+
+        Gizmos.DrawWireSphere(transform.position, distance);
     }
 }
