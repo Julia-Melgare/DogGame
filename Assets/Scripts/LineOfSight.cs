@@ -10,6 +10,7 @@ public class LineOfSight : MonoBehaviour
     public Color meshColor = Color.yellow;
     public int scanFrequency = 30;
     public LayerMask layers;
+    public LayerMask occlusionLayers;
     public List<GameObject> objects = new List<GameObject>();
 
     private Collider[] colliders = new Collider[50];
@@ -57,18 +58,30 @@ public class LineOfSight : MonoBehaviour
         Vector3 origin = transform.position;
         Vector3 dest = obj.transform.position;
         Vector3 dir = dest - origin;
-        if (dir.y < 0 || dir.y > height)
-        {
-            return false;
-        }
+
+        if (dir.y < 0 || dir.y > height) return false;
 
         dir.y = 0;
         float deltaAngle = Vector3.Angle(dir, transform.forward);
-        if (deltaAngle > angle)
-        {
-            return false;
-        }
+        if (deltaAngle > angle) return false;
+
+        origin.y += height / 2;
+        dest.y = origin.y;
+        if (Physics.Linecast(origin, dest, occlusionLayers)) return false;
+
         return true;
+    }
+
+    public int Filter(GameObject[] buffer, string layerName)
+    {
+        int layer = LayerMask.NameToLayer(layerName);
+        int count = 0;
+        foreach (var obj in objects)
+        {
+            if (obj.layer == layer) buffer[count++] = obj;
+            if (count == buffer.Length) break;
+        }
+        return count;
     }
 
     Mesh CreateWedgeMesh()
