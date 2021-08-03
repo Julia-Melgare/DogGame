@@ -10,7 +10,6 @@ public class LineOfSight : MonoBehaviour
     public Color meshColor = Color.yellow;
     public int scanFrequency = 30;
 
-
     private Mesh mesh;
 
 
