@@ -6,6 +6,7 @@ public class DogController : MonoBehaviour
 
 {
     public float speed;
+    public float enemySensorAngle;
     private GameObject bone;
     private Transform head;
     private LineOfSight los;
@@ -51,35 +52,22 @@ public class DogController : MonoBehaviour
         }
     }
 
-    //WIP
-    IEnumerator LookForBone(float duration)
+    //TODO: use this as base when the first enemy is added
+    /*void LookForEnemies()
     {
-        float time = 0f;
-        Quaternion startRotation = transform.rotation;
-        Quaternion endRotation = Quaternion.Euler(new Vector3(0, -45, 0)) * startRotation;
-        while (time < duration)
+        GameObject[] buffer = new GameObject[10];
+        if (los.Filter(buffer, "Enemies") > 0)
         {
-            //Debug.Log("Time: " + time);
-            time += Time.deltaTime;
-            float t = time / duration;
-           //Debug.Log("T: " + t);
-            transform.rotation = Quaternion.Lerp(startRotation, endRotation, t);
+            var enemy = buffer[0];
+            Vector3 origin = transform.position;
+            Vector3 dest = obj.transform.position;
+            Vector3 dir = dest - origin;
+            dir.y = 0;
+            float deltaAngle = Vector3.Angle(dir, transform.forward);
+            if (deltaAngle > enemySensorAngle)
+            {
+                //TODO: do nothing
+            }
         }
-        Debug.Log("Finished looking once");
-        /*yield return new WaitForSeconds(0.2f);
-        time = 0f;
-        duration *= 2;
-        startRotation = transform.rotation;
-        endRotation = Quaternion.Euler(new Vector3(0, -45, 0)) * startRotation;
-        while (time < duration)
-        {
-            //Debug.Log("Time: " + time);
-            time += Time.deltaTime;
-            float t = time / duration;
-            //Debug.Log("T: " + t);
-            transform.rotation = Quaternion.Lerp(startRotation, endRotation, t);
-        }*/
-        lookingForBone = false;
-        yield return null;
-    }
+    }*/
 }
