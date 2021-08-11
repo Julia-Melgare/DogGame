@@ -16,32 +16,52 @@ public class BoneController : MonoBehaviour
 
     void Update()
     {
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        float enter = 0f;
-
         if (Input.GetMouseButtonDown(0))
         {
-            Ray inputRay = new Ray(transform.position, Vector3.down);
-            RaycastHit hit;
-            if (Physics.Raycast(inputRay, out hit))
+            if (isGrabbed)
             {
-                if (LayerMask.LayerToName(hit.collider.gameObject.layer) != "Obstacles")
+                Ray inputRay = new Ray(transform.position, Vector3.down);
+                RaycastHit hit;
+                if (Physics.Raycast(inputRay, out hit))
                 {
-                    isGrabbed = false;
-                    rigidBody.isKinematic = false;
-                }
-                else
-                {
-                    transform.position = RepositionBone(hit);
-                    //TODO: check for invalid value before dropping bone
-                    isGrabbed = false;
-                    rigidBody.isKinematic = false;
-                }
+                    if (LayerMask.LayerToName(hit.collider.gameObject.layer) != "Obstacles")
+                    {
+                        isGrabbed = false;
+                        rigidBody.isKinematic = false;
+                    }
+                    else
+                    {
+                        Vector3 newPos = RepositionBone(hit);
+                        if (!float.IsNaN(newPos.x))
+                        {
+                            transform.position = newPos;
+                            isGrabbed = false;
+                            rigidBody.isKinematic = false;
+                        }
+                    }
 
+                }
             }
+            else
+            {
+                Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(inputRay, out hit))
+                {
+                    if (LayerMask.LayerToName(hit.collider.gameObject.layer) == "Bone")
+                    {
+                        rigidBody.isKinematic = true;
+                        isGrabbed = true;
+                        transform.rotation = Quaternion.Euler(90, 0, 0);
+                    }
+                }
+            }
+            
         }
         if (isGrabbed)
         {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            float enter = 0f;
             if (plane.Raycast(ray, out enter))
             {
                 Vector3 hitPoint = ray.GetPoint(enter);
@@ -74,9 +94,9 @@ public class BoneController : MonoBehaviour
         BoxCollider collidingObject = (BoxCollider)hit.collider;
         float xsize = collidingObject.size.x * hit.collider.gameObject.transform.localScale.x;
         float zsize = collidingObject.size.z * hit.collider.gameObject.transform.localScale.z;
-        Debug.Log(xsize);
-        Debug.Log(zsize);
         Vector3[] directions = { new Vector3(-xsize, 0, 0), new Vector3(0, 0, -zsize), new Vector3(xsize, 0, 0), new Vector3(0, 0, zsize) };
+        List<Vector3> sortedDirections = new List<Vector3>(directions);
+        sortedDirections.Sort((a,b) => a.magnitude.CompareTo(b.magnitude));
         while (directions[0].x <= xsize * 2f)
         {
             for (int j = 0; j < directions.Length; j++)
@@ -91,23 +111,23 @@ public class BoneController : MonoBehaviour
                     switch (j)
                     {
                         case 0:
-                            directions[j] += new Vector3(-2, 0, 0);
+                            sortedDirections[j] += new Vector3(-2, 0, 0);
                             break;
                         case 1:
-                            directions[j] += new Vector3(0, 0, -2);
+                            sortedDirections[j] += new Vector3(0, 0, -2);
                             break;
                         case 2:
-                            directions[j] += new Vector3(2, 0, 0);
+                            sortedDirections[j] += new Vector3(2, 0, 0);
                             break;
                         case 3:
-                            directions[j] += new Vector3(0, 0, 2);
+                            sortedDirections[j] += new Vector3(0, 0, 2);
                             break;
                     }
                 }
 
             }
         }          
-        return currentPos; //TODO: return invalid value
+        return new Vector3(float.NaN, float.NaN, float.NaN);
     }
 
 
