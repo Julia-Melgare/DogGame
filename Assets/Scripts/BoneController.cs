@@ -7,11 +7,20 @@ public class BoneController : MonoBehaviour
     private Plane plane = new Plane(Vector3.up, Vector3.zero);
     private Rigidbody rigidBody;
     private bool isGrabbed;
+    public float speed;
+
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
-        rigidBody.isKinematic = true;
+        rigidBody.useGravity = false;
         isGrabbed = true;
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        float enter = 0f;
+        if (plane.Raycast(ray, out enter))
+        {
+            Vector3 hitPoint = ray.GetPoint(enter);
+            transform.position = new Vector3(hitPoint.x, hitPoint.y + 5f, hitPoint.z);
+        }
     }
 
     void Update()
@@ -27,7 +36,10 @@ public class BoneController : MonoBehaviour
                     if (LayerMask.LayerToName(hit.collider.gameObject.layer) != "Obstacles")
                     {
                         isGrabbed = false;
-                        rigidBody.isKinematic = false;
+                        rigidBody.velocity = Vector3.zero;
+                        rigidBody.useGravity = true;
+                        rigidBody.freezeRotation = false;
+                        rigidBody.constraints = RigidbodyConstraints.None;
                     }
                     else
                     {
@@ -36,7 +48,11 @@ public class BoneController : MonoBehaviour
                         {
                             transform.position = newPos;
                             isGrabbed = false;
-                            rigidBody.isKinematic = false;
+                            rigidBody.velocity = Vector3.zero;
+                            rigidBody.useGravity = true;
+                            rigidBody.freezeRotation = false;
+                            rigidBody.constraints = RigidbodyConstraints.None;
+                            
                         }
                     }
 
@@ -50,9 +66,18 @@ public class BoneController : MonoBehaviour
                 {
                     if (LayerMask.LayerToName(hit.collider.gameObject.layer) == "Bone")
                     {
-                        rigidBody.isKinematic = true;
+                        rigidBody.useGravity = false;
                         isGrabbed = true;
                         transform.rotation = Quaternion.Euler(90, 0, 0);
+                        rigidBody.constraints = RigidbodyConstraints.FreezePositionY;
+                        rigidBody.freezeRotation = true;
+                        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        float enter = 0f;
+                        if (plane.Raycast(ray, out enter))
+                        {
+                            Vector3 hitPoint = ray.GetPoint(enter);
+                            transform.position = new Vector3(hitPoint.x, hitPoint.y + 5f, hitPoint.z);
+                        }
                     }
                 }
             }
@@ -65,7 +90,9 @@ public class BoneController : MonoBehaviour
             if (plane.Raycast(ray, out enter))
             {
                 Vector3 hitPoint = ray.GetPoint(enter);
-                transform.position = new Vector3(hitPoint.x, hitPoint.y + 5f, hitPoint.z);
+                Vector3 direction = hitPoint - transform.position;
+                direction = direction.normalized;
+                rigidBody.velocity = speed * direction;
             }
         }
     }
@@ -94,7 +121,7 @@ public class BoneController : MonoBehaviour
         BoxCollider collidingObject = (BoxCollider)hit.collider;
         float xsize = collidingObject.size.x * hit.collider.gameObject.transform.localScale.x;
         float zsize = collidingObject.size.z * hit.collider.gameObject.transform.localScale.z;
-        Vector3[] directions = { new Vector3(-xsize, 0, 0), new Vector3(0, 0, -zsize), new Vector3(xsize, 0, 0), new Vector3(0, 0, zsize) };
+        Vector3[] directions = { new Vector3(-xsize, 0, 0), new Vector3(0, 0, -zsize), new Vector3(xsize, 0, 0), new Vector3(0, 0, zsize)};
         List<Vector3> sortedDirections = new List<Vector3>(directions);
         sortedDirections.Sort((a,b) => a.magnitude.CompareTo(b.magnitude));
         while (directions[0].x <= xsize * 2f)
