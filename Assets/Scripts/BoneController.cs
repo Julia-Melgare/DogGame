@@ -94,7 +94,7 @@ public class BoneController : MonoBehaviour
             }
             else
             {
-                //rigidbody.velocity = Vector3.down * fallSpeedBoost;
+                rigidbody.velocity = Vector3.down * fallSpeedBoost;
             }
             
         }

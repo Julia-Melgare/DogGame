@@ -1,23 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class DogController : MonoBehaviour
 
 {
     public float speed;
     public float enemySensorAngle;
+    [SerializeField]
+    public GameObject headAim;
     private GameObject bone;
     private Transform head;
     private LineOfSight los;
-    private bool lookingForBone;
 
     void Start()
     {
         bone = GameObject.Find("Bone");
         los = GetComponent<LineOfSight>();
-        head = transform.Find("Head");
-        lookingForBone = false;
     }
 
     void Update()
@@ -25,7 +25,7 @@ public class DogController : MonoBehaviour
         if (bone == null)
         {
             FindBone();
-            head.rotation = transform.rotation;
+            headAim.GetComponent<MultiAimConstraint>().weight=0;
         }
         else
         {
@@ -34,7 +34,7 @@ public class DogController : MonoBehaviour
             Vector3 newPos = (direction.normalized * speed) * Time.deltaTime;
             transform.position += new Vector3(newPos.x, 0, newPos.z);
             transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            head.rotation = Quaternion.LookRotation(direction);
+            headAim.GetComponent<MultiAimConstraint>().weight = 1;
             FindBone();
         }    
     }
