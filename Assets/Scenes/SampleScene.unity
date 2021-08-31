@@ -414,12 +414,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &285863267 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6368974588088136562, guid: 5381adcbd4158b34eae21fb26692df61,
-    type: 3}
-  m_PrefabInstance: {fileID: 1211481995}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &471893459
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,6 +1215,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &966818285 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9127270013218848314, guid: 5381adcbd4158b34eae21fb26692df61,
+    type: 3}
+  m_PrefabInstance: {fileID: 1211481995}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &996462330
 GameObject:
   m_ObjectHideFlags: 0
@@ -2018,7 +2018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 285863267}
+    m_ConstrainedObject: {fileID: 966818285}
     m_SourceObjects:
       m_Length: 1
       m_Item0:
@@ -2045,9 +2045,9 @@ MonoBehaviour:
       m_Item7:
         transform: {fileID: 0}
         weight: 0
-    m_Offset: {x: 0, y: 0, z: 0}
+    m_Offset: {x: -45, y: 0, z: 0}
     m_MinLimit: -180
-    m_MaxLimit: 50
+    m_MaxLimit: 80
     m_AimAxis: 5
     m_MaintainOffset: 0
     m_ConstrainedAxes:
