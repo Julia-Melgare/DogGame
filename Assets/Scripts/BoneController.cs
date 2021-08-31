@@ -75,7 +75,14 @@ public class BoneController : MonoBehaviour
             }
         }
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (LayerMask.LayerToName(collision.gameObject.layer) == "Obstacles")
+        {
+            Vector3 boneDirection = CalculateBoneDirection(collision.gameObject);
+            rigidbody.velocity = rollSpeed * boneDirection;
+        }
+    }
     private void OnCollisionStay(Collision collision)
     {
         if(!isGrabbed)
@@ -96,7 +103,7 @@ public class BoneController : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         if (!isGrabbed && LayerMask.LayerToName(collision.gameObject.layer) == "Obstacles")
-            rigidbody.velocity = Vector3.zero;//Vector3.down * fallSpeedBoost;
+            rigidbody.velocity = Vector3.down * fallSpeedBoost;
     }
 
     Vector3 CalculateBoneDirection(GameObject collidingObject)
