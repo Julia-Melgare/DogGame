@@ -6,7 +6,47 @@ ModelImporter:
   - first:
       74: 1827226128182048838
     second: Take 001
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dog_black
+    second: {fileID: 2100000, guid: b255e69e3bc6c3449a3278ac56180d4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dog_blinn4
+    second: {fileID: 2100000, guid: 4ae8522c4a6b21940853c1f57a1642d2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dog_body_dark
+    second: {fileID: 2100000, guid: 816ffd518af9d1d4dbeaa4da3921bf14, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dog_body_light_mat
+    second: {fileID: 2100000, guid: a37e445afe6719b469cad5f982fcecfe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dog_mouth_mat
+    second: {fileID: 2100000, guid: eca9ba6520cba534cbb65088729a33d7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dog_shadow_mat
+    second: {fileID: 2100000, guid: 8388a0801c474694d9715941b8b7e455, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dog_tongue_mat
+    second: {fileID: 2100000, guid: 1846d339cb4e226459623626f418f49f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dog_white
+    second: {fileID: 2100000, guid: d14d7969bca27a542a35d5e4cb8f3c1d, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
