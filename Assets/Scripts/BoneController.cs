@@ -35,7 +35,7 @@ public class BoneController : MonoBehaviour
                 rigidbody.useGravity = true;
                 rigidbody.freezeRotation = false;
                 rigidbody.constraints = RigidbodyConstraints.None;
-                rigidbody.velocity = Vector3.down * fallSpeedBoost;
+                rigidbody.velocity = Vector3.zero;//Vector3.down * fallSpeedBoost;
             }
             else
             {
@@ -47,7 +47,7 @@ public class BoneController : MonoBehaviour
                     {
                         isGrabbed = true;
                         rigidbody.useGravity = false;                        
-                        transform.rotation = Quaternion.Euler(90, 0, 0);
+                        transform.rotation = Quaternion.Euler(0, -98, 0);
                         rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
                         rigidbody.freezeRotation = true;
                         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -87,7 +87,7 @@ public class BoneController : MonoBehaviour
             }
             else
             {
-                rigidbody.velocity = Vector3.down * fallSpeedBoost;
+                //rigidbody.velocity = Vector3.down * fallSpeedBoost;
             }
             
         }
@@ -96,7 +96,7 @@ public class BoneController : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         if (!isGrabbed && LayerMask.LayerToName(collision.gameObject.layer) == "Obstacles")
-            rigidbody.velocity = Vector3.down * fallSpeedBoost;
+            rigidbody.velocity = Vector3.zero;//Vector3.down * fallSpeedBoost;
     }
 
     Vector3 CalculateBoneDirection(GameObject collidingObject)
