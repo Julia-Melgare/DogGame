@@ -13,11 +13,13 @@ public class DogController : MonoBehaviour
     private GameObject bone;
     private Transform head;
     private LineOfSight los;
+    private Animator animator;
 
     void Start()
     {
         bone = GameObject.Find("Bone");
         los = GetComponent<LineOfSight>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -26,9 +28,19 @@ public class DogController : MonoBehaviour
         {
             FindBone();
             headAim.GetComponent<MultiAimConstraint>().weight=0;
+            animator.SetBool("boneNear", false);
+            animator.SetBool("boneFollow", false);
         }
         else
         {
+            if(Vector3.Distance(transform.position, bone.transform.position) <= 5.5f)
+            {
+                animator.SetBool("boneNear", true);
+                animator.SetBool("boneFollow", false);
+                FindBone();
+                return;
+            }
+            animator.SetBool("boneFollow", true);
             Vector3 direction = bone.transform.position - transform.position;
             Debug.DrawLine(transform.position, bone.transform.position);
             Vector3 newPos = (direction.normalized * speed) * Time.deltaTime;
@@ -68,6 +80,7 @@ public class DogController : MonoBehaviour
             {
                 //TODO: do nothing
             }
+            //TODO: also check for enemy distance
         }
     }*/
 }

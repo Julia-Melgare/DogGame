@@ -46,6 +46,7 @@ public class BoneController : MonoBehaviour
                     if (LayerMask.LayerToName(hit.collider.gameObject.layer) == "Bone")
                     {
                         isGrabbed = true;
+                        rigidbody.velocity = Vector3.zero;
                         rigidbody.useGravity = false;                        
                         transform.rotation = Quaternion.Euler(0, -98, 0);
                         rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
@@ -80,7 +81,7 @@ public class BoneController : MonoBehaviour
         if (LayerMask.LayerToName(collision.gameObject.layer) == "Obstacles")
         {
             Vector3 boneDirection = CalculateBoneDirection(collision.gameObject);
-            rigidbody.velocity = rollSpeed * boneDirection;
+            rigidbody.velocity = (rollSpeed * boneDirection) + (Vector3.up * rollSpeed);
         }
     }
     private void OnCollisionStay(Collision collision)
@@ -90,11 +91,15 @@ public class BoneController : MonoBehaviour
             if(LayerMask.LayerToName(collision.gameObject.layer) == "Obstacles")
             {
                 Vector3 boneDirection = CalculateBoneDirection(collision.gameObject);
-                rigidbody.velocity = rollSpeed * boneDirection;
+                rigidbody.velocity = (rollSpeed * boneDirection) + (Vector3.up * rollSpeed);
+            }
+            if(collision.gameObject.GetComponent<Terrain>() != null)
+            {
+                rigidbody.velocity = Vector3.zero;
             }
             else
             {
-                rigidbody.velocity = Vector3.down * fallSpeedBoost;
+                //rigidbody.velocity = Vector3.down * fallSpeedBoost;
             }
             
         }
@@ -102,8 +107,8 @@ public class BoneController : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (!isGrabbed && LayerMask.LayerToName(collision.gameObject.layer) == "Obstacles")
-            rigidbody.velocity = Vector3.down * fallSpeedBoost;
+       // if (!isGrabbed && LayerMask.LayerToName(collision.gameObject.layer) == "Obstacles")
+            //rigidbody.velocity = Vector3.down * fallSpeedBoost;
     }
 
     Vector3 CalculateBoneDirection(GameObject collidingObject)
