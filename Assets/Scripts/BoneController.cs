@@ -83,6 +83,15 @@ public class BoneController : MonoBehaviour
             Vector3 boneDirection = CalculateBoneDirection(collision.gameObject);
             rigidbody.velocity = rollSpeed * boneDirection;
             rigidbody.AddForce(40*Vector3.up);
+            if(boneDirection == Vector3.left)
+            {
+                rigidbody.AddTorque(10 * Vector3.forward);
+            }
+            else
+            {
+                rigidbody.AddTorque(10 * Vector3.left);
+            }
+            
         }
     }
     private void OnCollisionStay(Collision collision)
