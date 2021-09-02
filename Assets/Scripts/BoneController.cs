@@ -81,7 +81,8 @@ public class BoneController : MonoBehaviour
         if (LayerMask.LayerToName(collision.gameObject.layer) == "Obstacles")
         {
             Vector3 boneDirection = CalculateBoneDirection(collision.gameObject);
-            rigidbody.velocity = (rollSpeed * boneDirection) + (Vector3.up * rollSpeed);
+            rigidbody.velocity = rollSpeed * boneDirection;
+            rigidbody.AddForce(40*Vector3.up);
         }
     }
     private void OnCollisionStay(Collision collision)
@@ -91,15 +92,12 @@ public class BoneController : MonoBehaviour
             if(LayerMask.LayerToName(collision.gameObject.layer) == "Obstacles")
             {
                 Vector3 boneDirection = CalculateBoneDirection(collision.gameObject);
-                rigidbody.velocity = (rollSpeed * boneDirection) + (Vector3.up * rollSpeed);
-            }
-            if(collision.gameObject.GetComponent<Terrain>() != null)
-            {
-                rigidbody.velocity = Vector3.zero;
+                rigidbody.velocity = rollSpeed * boneDirection;
+                rigidbody.AddForce(40 * Vector3.up);
             }
             else
             {
-                //rigidbody.velocity = Vector3.down * fallSpeedBoost;
+                rigidbody.velocity = Vector3.zero;
             }
             
         }
